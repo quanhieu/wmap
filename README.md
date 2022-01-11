@@ -1,22 +1,12 @@
-![WMAP](logo.png)
-> :dizzy: Nmap web interface to execute the main commands more friendly.
-
-
-![gif](interact.gif)
-
-
-## Install
+> Setup
 
 ```bash
-  $ git clone git@github.com:ericsuarez/wmap.git
-  $ cd wmap
-  $ npm i 
-  $ npm start
+  sudo apt-get install nmap
+  nmap --version
 ```
 
+> Start
 
-## Licence
-
-
-MIT © [Eric. R. Suárez](https://ericsuarez.github.io/)
-
+```
+  yarn dev  
+```

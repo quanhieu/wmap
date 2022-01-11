@@ -1,10 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
 var shell = require('shelljs');
-
-
-
 
 function prepare(){
 	return new Promise((res,rej) =>{
@@ -20,7 +16,6 @@ function prepare(){
 				else
 					resultado += arguments[i] + ' ';
 			}
-
 		}
 
 		if(resultado != "") {
@@ -32,29 +27,23 @@ function prepare(){
 
 }
 
-
-
-
-
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	res.render('index', { title: 'Service Nmap' });
 });
 
-
-
-
-
 router.get('/scan',function(req,res,next){
 
-
+	let newScript = "";
 	let range = "";
 	let t = "";
 	let string = "";
 	let ip = req.query.ip || "127.0.0.1";
 	let result;
 
+	if (!req.query.newScript) {
+		newScript = req.query.newScript || "-sV --script=http-sql-injection"
+	}
 	if(req.query.range != undefined){ 
 		range += "-p [" + req.query.range + "]"; 
 	}
@@ -64,32 +53,32 @@ router.get('/scan',function(req,res,next){
 	if(req.query.string != undefined) string += req.query.string;
 
 
-
+	console.log('\n')
+	console.log(`\n newScript ${newScript} \n`)
 	console.log("range da "  + range);
 	console.log("t da " + t);
 	console.log("string da " + string);
 	console.log("ip da " + req.query.ip);
-
+	console.log('\n')
 	
-	prepare(string,range,t).then((resp,rej) =>{
-		
-		if(rej) res.send(rej);
-		
-		else{
-			shell.exec('nmap ' + resp + ' ' + ip,function(code,msg,err){
-				if(err) res.send(JSON.stringify(err));
-				else res.send(JSON.stringify(msg));
-			});
-		} 
-	
-		
-	
-	});
+	if (newScript) {
+		shell.exec(`nmap ${newScript} ${ip}`, function(code, msg, err){
+			if(err) res.send(JSON.stringify(err));
+			else res.send(JSON.stringify(msg));
+		});
 
-
-
-
-
+	} else {
+		prepare(string,range,t).then((resp,rej) =>{
+			if(rej) res.send(rej);
+			
+			else{
+				shell.exec('nmap ' + resp + ' ' + ip,function(code,msg,err){
+					if(err) res.send(JSON.stringify(err));
+					else res.send(JSON.stringify(msg));
+				});
+			} 
+		});
+	}
 });
 
 

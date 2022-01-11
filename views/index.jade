@@ -5,6 +5,8 @@ block content
 		.row
 			.col-md-3
 				h2 Options
+				h5 testphp.vulnweb.com
+				h5 scanme.nmap.org
 				input#ip.form-control(type="text" placeholder="IP [/mask] Default localhost")
 				button#scan.btn.btn-primary Scan!
 				.list-group
@@ -18,8 +20,11 @@ block content
 					.list-group-item.list-group-item-action(href="#" value="-F") Fast -F 
 					.list-group-item.list-group-item-action(href="#" value="-f") Fragment -f
 					.list-group-item.list-group-item-action(href="#" value="-p-") All ports -p-
+					.list-group-item.list-group-item-action(href="#" value="-sV --script=http-sql-injection") -sV --script=http-sql-injection
 					br
-					
+
+					input#newScript.form-control(type="text" placeholder="[Optional] Script [script]")
+					br
 					input#t.form-control(type="text" placeholder="[Optional] Lower-Faster -T [0-5]")
 					input#range.form-control(type="text" placeholder="[Optional] Port range   -p [range]")
 					
